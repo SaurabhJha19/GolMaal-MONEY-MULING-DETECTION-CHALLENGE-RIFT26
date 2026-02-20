@@ -1,11 +1,11 @@
 # ---------- Stage 1: Build frontend ----------
-FROM node:18 AS frontend-builder
+FROM node:20-alpine AS frontend-builder
 
 WORKDIR /app/frontend
 COPY frontend/package*.json ./
 RUN npm install
 COPY frontend .
-RUN npm run dev
+RUN npm run build
 
 # ---------- Stage 2: Build backend ----------
 FROM python:3.11
@@ -30,3 +30,4 @@ EXPOSE 8000
 
 
 CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "backend.main:app", "--bind", "0.0.0.0:8000"]
+
