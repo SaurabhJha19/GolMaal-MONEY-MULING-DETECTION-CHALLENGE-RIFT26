@@ -1,11 +1,14 @@
 # ---------- Stage 1: Build frontend ----------
 FROM node:20-alpine AS frontend-builder
 
-WORKDIR /frontend/app
+WORKDIR /app/frontend
+
 COPY frontend/package*.json ./
 RUN npm install
+
 COPY frontend .
 RUN npm run build
+
 
 # ---------- Stage 2: Build backend ----------
 FROM python:3.11
@@ -20,16 +23,11 @@ RUN pip install gunicorn uvicorn
 # Copy backend code
 COPY backend ./backend
 
-# Copy built frontend
-COPY --from=frontend-builder /frontend/.next ./frontend/.next
-COPY --from=frontend-builder /frontend/public ./frontend/public
+# Copy built frontend output
+COPY --from=frontend-builder /app/frontend/.next ./frontend/.next
+COPY --from=frontend-builder /app/frontend/public ./frontend/public
 
-# Expose port
 EXPOSE 8000
 
-
-CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "backend.main:app", "--bind", "0.0.0.0:8000"]
-
-
-
-
+# IMPORTANT FIX HERE ↓↓↓
+CMD ["sh", "-c", "gunicorn -k uvicorn.workers.UvicornWorker backend.app.main:app --bind 0.0.0.0:$PORT"]
