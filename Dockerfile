@@ -1,7 +1,7 @@
 # ---------- Stage 1: Build frontend ----------
 FROM node:20-alpine AS frontend-builder
 
-WORKDIR /app/frontend
+WORKDIR /frontend/app
 COPY frontend/package*.json ./
 RUN npm install
 COPY frontend .
@@ -30,4 +30,5 @@ EXPOSE 8000
 
 
 CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "backend.main:app", "--bind", "0.0.0.0:8000"]
+
 
