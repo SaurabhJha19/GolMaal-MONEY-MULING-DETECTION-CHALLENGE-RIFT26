@@ -98,7 +98,7 @@ export default function GraphView({
         }
       })
 
-      renderer.on("mousemove", (event: any) => {
+      renderer.on("mousemove", (event) => {
         if (!tooltipRef.current) return
 
         const tooltip = tooltipRef.current
@@ -197,3 +197,4 @@ export default function GraphView({
     </div>
   )
 }
+
