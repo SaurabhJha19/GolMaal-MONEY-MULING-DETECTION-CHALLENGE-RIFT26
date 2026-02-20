@@ -98,15 +98,15 @@ export default function GraphView({
         }
       })
 
-      renderer.on("mousemove", (event) => {
-        if (!tooltipRef.current) return
+      // renderer.on("mousemove", (event) => {
+      //   if (!tooltipRef.current) return
 
-        const tooltip = tooltipRef.current
-        const rect = containerRef.current!.getBoundingClientRect()
+      //   const tooltip = tooltipRef.current
+      //   const rect = containerRef.current!.getBoundingClientRect()
 
-        tooltip.style.left = `${event.event.clientX - rect.left + 15}px`
-        tooltip.style.top = `${event.event.clientY - rect.top + 15}px`
-      })
+      //   tooltip.style.left = `${event.event.clientX - rect.left + 15}px`
+      //   tooltip.style.top = `${event.event.clientY - rect.top + 15}px`
+      // })
 
       // 🔷 Version-safe animated force layout
       const forceLayoutModule: any = await import(
@@ -197,4 +197,5 @@ export default function GraphView({
     </div>
   )
 }
+
 
