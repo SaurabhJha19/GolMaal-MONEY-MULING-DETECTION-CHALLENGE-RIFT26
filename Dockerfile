@@ -5,7 +5,7 @@ WORKDIR /app/frontend
 COPY frontend/package*.json ./
 RUN npm install
 COPY frontend .
-RUN npm run build
+RUN npm run dev
 
 # ---------- Stage 2: Build backend ----------
 FROM python:3.11
@@ -27,5 +27,6 @@ COPY --from=frontend-builder /app/frontend/package.json ./frontend/
 
 # Expose port
 EXPOSE 8000
+
 
 CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "backend.main:app", "--bind", "0.0.0.0:8000"]
