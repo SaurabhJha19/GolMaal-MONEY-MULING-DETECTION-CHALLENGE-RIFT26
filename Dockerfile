@@ -21,14 +21,15 @@ RUN pip install gunicorn uvicorn
 COPY backend ./backend
 
 # Copy built frontend
-COPY --from=frontend-builder /app/frontend/.next ./frontend/.next
-COPY --from=frontend-builder /app/frontend/public ./frontend/public
+COPY --from=frontend-builder /frontend/.next ./frontend/.next
+COPY --from=frontend-builder /frontend/public ./frontend/public
 
 # Expose port
 EXPOSE 8000
 
 
 CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "backend.main:app", "--bind", "0.0.0.0:8000"]
+
 
 
 
