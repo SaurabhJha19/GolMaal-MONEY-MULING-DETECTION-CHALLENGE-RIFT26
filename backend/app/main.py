@@ -19,8 +19,19 @@ from app.utils.logger import get_logger
 
 from fastapi.middleware.cors import CORSMiddleware
 
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+import os
+
 
 app = FastAPI()
+app.mount("/_next", StaticFiles(directory="frontend/.next"), name="next")
+
+@app.get("/{full_path:path}")
+async def serve_frontend(full_path: str):
+    return FileResponse("frontend/.next/server/pages/index.html")
+
+
 logger = get_logger()
 
 app.add_middleware(
